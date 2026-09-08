@@ -2,35 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport"
       content="width=device-width,
-               initial-scale=1,
-               maximum-scale=1,
-               user-scalable=no,
-               viewport-fit=cover">
+      initial-scale=1,
+      maximum-scale=1,
+      user-scalable=no,
+      viewport-fit=cover">
 
-<title>Garage 73 Menu</title>
+<title>Garage 73</title>
 
 <style>
-
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
 
-html,
-body {
+html, body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    background: #000;
     overflow: hidden;
-}
-
-body {
-    font-family: Arial, Helvetica, sans-serif;
+    background: #000;
 }
 
 #app {
@@ -53,74 +46,49 @@ body {
     display: block;
 }
 
-.screen-image {
+.screen img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
+    object-fit: contain;
     display: block;
 }
 
-/* VIDEO */
-
 #introVideo {
-    position: absolute;
-    inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     background: #000;
 }
 
-/* Invisible clickable areas */
-
-.hotspot {
-    position: absolute;
-    z-index: 20;
-    cursor: pointer;
-}
-
-/* HOME */
-
+/* KITCHEN */
 #kitchenButton {
+    position: absolute;
     left: 13%;
     top: 39%;
     width: 37%;
-    height: 12%;
+    height: 13%;
+    z-index: 10;
 }
 
+/* BAR */
 #barButton {
+    position: absolute;
     left: 51%;
     top: 39%;
     width: 37%;
-    height: 12%;
+    height: 13%;
+    z-index: 10;
 }
 
-/* BACK BUTTON */
-
+/* BACK */
 .backButton {
-    left: 3%;
-    top: 1.5%;
-    width: 27%;
-    height: 7%;
+    position: absolute;
+    left: 2%;
+    top: 1%;
+    width: 30%;
+    height: 9%;
+    z-index: 10;
 }
-
-/* MENU NAVIGATION */
-
-.nextButton {
-    right: 0;
-    bottom: 0;
-    width: 50%;
-    height: 12%;
-}
-
-.prevButton {
-    left: 0;
-    bottom: 0;
-    width: 50%;
-    height: 12%;
-}
-
 </style>
 </head>
 
@@ -128,8 +96,7 @@ body {
 
 <div id="app">
 
-    <!-- INTRO VIDEO -->
-
+    <!-- VIDEO -->
     <div id="videoScreen" class="screen active">
 
         <video
@@ -147,23 +114,17 @@ body {
 
 
     <!-- HOME -->
-
     <div id="homeScreen" class="screen">
 
-        <img
-            src="home.jpg"
-            class="screen-image"
-            alt="Garage 73 Menu">
+        <img src="home.jpg" alt="Garage 73">
 
         <div
             id="kitchenButton"
-            class="hotspot"
             onclick="openKitchen()">
         </div>
 
         <div
             id="barButton"
-            class="hotspot"
             onclick="openBar()">
         </div>
 
@@ -171,17 +132,15 @@ body {
 
 
     <!-- KITCHEN -->
-
     <div id="kitchenScreen" class="screen">
 
         <img
             id="kitchenImage"
-            class="screen-image"
             src="kitchen-01.jpg"
-            alt="Kitchen Menu">
+            alt="Kitchen">
 
         <div
-            class="hotspot backButton"
+            class="backButton"
             onclick="goHome()">
         </div>
 
@@ -189,17 +148,15 @@ body {
 
 
     <!-- BAR -->
-
     <div id="barScreen" class="screen">
 
         <img
             id="barImage"
-            class="screen-image"
             src="bar-01.jpg"
-            alt="Bar Menu">
+            alt="Bar">
 
         <div
-            class="hotspot backButton"
+            class="backButton"
             onclick="goHome()">
         </div>
 
@@ -210,77 +167,77 @@ body {
 
 <script>
 
-const kitchenPages = [
-    "kitchen-01.jpg",
-    "kitchen-02.jpg",
-    "kitchen-03.jpg",
-    "kitchen-04.jpg",
-    "kitchen-05.jpg",
-    "kitchen-06.jpg",
-    "kitchen-07.jpg",
-    "kitchen-08.jpg",
-    "kitchen-09.jpg",
-];
+const video = document.getElementById("introVideo");
 
-const barPages = [
-    "bar-01.jpg",
-    "bar-02.jpg",
-    "bar-03.jpg",
-];
-
-let kitchenIndex = 0;
-let barIndex = 0;
+let menuOpened = false;
 
 
-/* SCREEN CONTROL */
+/* Переход после видео */
 
-function showScreen(id) {
+function showHome() {
+
+    if (menuOpened) return;
+
+    menuOpened = true;
+
+    video.pause();
 
     document
-        .querySelectorAll(".screen")
-        .forEach(screen => {
-
-            screen.classList.remove("active");
-
-        });
+        .getElementById("videoScreen")
+        .classList.remove("active");
 
     document
-        .getElementById(id)
+        .getElementById("homeScreen")
         .classList.add("active");
 }
 
 
-/* VIDEO */
-
-const video = document.getElementById("introVideo");
+/* Основной способ */
 
 video.addEventListener("ended", function() {
+    showHome();
+});
 
-    showScreen("homeScreen");
+
+/* Запасной способ:
+   когда видео практически закончилось */
+
+video.addEventListener("timeupdate", function() {
+
+    if (
+        video.duration &&
+        video.currentTime >= video.duration - 0.15
+    ) {
+        showHome();
+    }
 
 });
 
 
-/* HOME */
+/* Если браузер сообщает duration */
 
-function goHome() {
+video.addEventListener("loadedmetadata", function() {
 
-    showScreen("homeScreen");
+    console.log("Video duration:", video.duration);
 
-}
+});
 
 
 /* KITCHEN */
 
 function openKitchen() {
 
-    kitchenIndex = 0;
+    document
+        .getElementById("homeScreen")
+        .classList.remove("active");
 
-    document.getElementById("kitchenImage").src =
-        kitchenPages[kitchenIndex];
+    document
+        .getElementById("barScreen")
+        .classList.remove("active");
 
-    showScreen("kitchenScreen");
-
+    document
+        .getElementById("kitchenScreen")
+        .classList.add("active");
 }
 
 
@@ -288,128 +245,35 @@ function openKitchen() {
 
 function openBar() {
 
-    barIndex = 0;
+    document
+        .getElementById("homeScreen")
+        .classList.remove("active");
 
-    document.getElementById("barImage").src =
-        barPages[barIndex];
+    document
+        .getElementById("kitchenScreen")
+        .classList.remove("active");
 
-    showScreen("barScreen");
-
+    document
+        .getElementById("barScreen")
+        .classList.add("active");
 }
 
 
-/* SWIPE */
+/* BACK */
 
-let startX = 0;
-let endX = 0;
+function goHome() {
 
-document.addEventListener("touchstart", function(e) {
-
-    startX = e.changedTouches[0].screenX;
-
-});
-
-
-document.addEventListener("touchend", function(e) {
-
-    endX = e.changedTouches[0].screenX;
-
-    handleSwipe();
-
-});
-
-
-function handleSwipe() {
-
-    const difference = endX - startX;
-
-    if (Math.abs(difference) < 50) {
-        return;
-    }
-
-    if (
-        document
+    document
         .getElementById("kitchenScreen")
-        .classList.contains("active")
-    ) {
+        .classList.remove("active");
 
-        if (difference < 0) {
-
-            if (
-                kitchenIndex <
-                kitchenPages.length - 1
-            ) {
-
-                kitchenIndex++;
-
-                document
-                    .getElementById("kitchenImage")
-                    .src =
-                    kitchenPages[kitchenIndex];
-
-            }
-
-        }
-
-        else {
-
-            if (kitchenIndex > 0) {
-
-                kitchenIndex--;
-
-                document
-                    .getElementById("kitchenImage")
-                    .src =
-                    kitchenPages[kitchenIndex];
-
-            }
-
-        }
-
-    }
-
-
-    if (
-        document
+    document
         .getElementById("barScreen")
-        .classList.contains("active")
-    ) {
+        .classList.remove("active");
 
-        if (difference < 0) {
-
-            if (
-                barIndex <
-                barPages.length - 1
-            ) {
-
-                barIndex++;
-
-                document
-                    .getElementById("barImage")
-                    .src =
-                    barPages[barIndex];
-
-            }
-
-        }
-
-        else {
-
-            if (barIndex > 0) {
-
-                barIndex--;
-
-                document
-                    .getElementById("barImage")
-                    .src =
-                    barPages[barIndex];
-
-            }
-
-        }
-
-    }
-
+    document
+        .getElementById("homeScreen")
+        .classList.add("active");
 }
 
 </script>
