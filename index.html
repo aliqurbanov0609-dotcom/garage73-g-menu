@@ -1,282 +1,867 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,
-      initial-scale=1,
-      maximum-scale=1,
-      user-scalable=no,
-      viewport-fit=cover">
 
-<title>Garage 73</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1,
+maximum-scale=1,
+user-scalable=no,
+viewport-fit=cover">
+
+<title>Garage 73 Menu</title>
+
 
 <style>
+
+/* ========================================
+   BASIC
+======================================== */
+
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
+html,
+body {
+
     margin: 0;
     padding: 0;
+
     width: 100%;
     height: 100%;
+
     overflow: hidden;
+
     background: #000;
+
 }
+
+body {
+
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+
+/* ========================================
+   APP
+======================================== */
 
 #app {
+
     position: fixed;
+
     inset: 0;
+
     width: 100%;
     height: 100%;
+
     background: #000;
+
 }
 
+
+/* ========================================
+   SCREENS
+======================================== */
+
 .screen {
+
     position: absolute;
+
     inset: 0;
+
     width: 100%;
     height: 100%;
+
     display: none;
+
+    background: #000;
+
 }
 
 .screen.active {
+
     display: block;
+
 }
 
-.screen img {
+
+/* ========================================
+   MENU IMAGES
+======================================== */
+
+.screen-image {
+
     width: 100%;
     height: 100%;
+
     object-fit: contain;
+
+    object-position: center;
+
     display: block;
+
+    background: #000;
+
 }
+
+
+/* ========================================
+   INTRO VIDEO
+======================================== */
 
 #introVideo {
+
+    position: absolute;
+
+    inset: 0;
+
     width: 100%;
     height: 100%;
+
     object-fit: contain;
+
     background: #000;
+
 }
 
-/* KITCHEN */
+
+/* ========================================
+   INVISIBLE CLICKABLE AREAS
+======================================== */
+
+.hotspot {
+
+    position: absolute;
+
+    z-index: 100;
+
+    cursor: pointer;
+
+}
+
+
+/* ========================================
+   HOME — KITCHEN BUTTON
+======================================== */
+
 #kitchenButton {
-    position: absolute;
+
     left: 13%;
+
     top: 39%;
+
     width: 37%;
+
     height: 13%;
-    z-index: 10;
+
 }
 
-/* BAR */
+
+/* ========================================
+   HOME — BAR BUTTON
+======================================== */
+
 #barButton {
-    position: absolute;
+
     left: 51%;
+
     top: 39%;
+
     width: 37%;
+
     height: 13%;
-    z-index: 10;
+
 }
 
-/* BACK */
+
+/* ========================================
+   BACK BUTTON
+======================================== */
+
 .backButton {
-    position: absolute;
+
     left: 2%;
+
     top: 1%;
+
     width: 30%;
+
     height: 9%;
-    z-index: 10;
+
 }
+
+
+/* ========================================
+   FADE
+======================================== */
+
+.fade {
+
+    animation: fadeIn 0.25s ease;
+
+}
+
+@keyframes fadeIn {
+
+    from {
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        opacity: 1;
+
+    }
+
+}
+
 </style>
+
 </head>
+
+
 
 <body>
 
+
 <div id="app">
 
-    <!-- VIDEO -->
-    <div id="videoScreen" class="screen active">
 
-        <video
-            id="introVideo"
-            autoplay
-            muted
-            playsinline
-            preload="auto">
+<!-- ======================================
+     INTRO VIDEO
+====================================== -->
 
-            <source src="video.mp4" type="video/mp4">
+<div
+id="videoScreen"
+class="screen active">
 
-        </video>
+    <video
+    id="introVideo"
+    autoplay
+    muted
+    playsinline
+    preload="auto">
 
-    </div>
+        <source
+        src="video.mp4"
+        type="video/mp4">
+
+    </video>
+
+</div>
 
 
-    <!-- HOME -->
-    <div id="homeScreen" class="screen">
 
-        <img src="home.jpg" alt="Garage 73">
+<!-- ======================================
+     HOME
+====================================== -->
 
-        <div
-            id="kitchenButton"
-            onclick="openKitchen()">
-        </div>
+<div
+id="homeScreen"
+class="screen">
 
-        <div
-            id="barButton"
-            onclick="openBar()">
-        </div>
-
-    </div>
+    <img
+    src="home.jpg"
+    class="screen-image"
+    alt="Garage 73 Menu">
 
 
     <!-- KITCHEN -->
-    <div id="kitchenScreen" class="screen">
 
-        <img
-            id="kitchenImage"
-            src="kitchen-01.jpg"
-            alt="Kitchen">
-
-        <div
-            class="backButton"
-            onclick="goHome()">
-        </div>
-
+    <div
+    id="kitchenButton"
+    class="hotspot"
+    onclick="openKitchen()">
     </div>
 
 
     <!-- BAR -->
-    <div id="barScreen" class="screen">
 
-        <img
-            id="barImage"
-            src="bar-01.jpg"
-            alt="Bar">
-
-        <div
-            class="backButton"
-            onclick="goHome()">
-        </div>
-
+    <div
+    id="barButton"
+    class="hotspot"
+    onclick="openBar()">
     </div>
 
 </div>
 
 
+
+<!-- ======================================
+     KITCHEN
+====================================== -->
+
+<div
+id="kitchenScreen"
+class="screen">
+
+    <img
+    id="kitchenImage"
+    class="screen-image"
+    src=""
+    alt="Kitchen Menu">
+
+
+    <!-- BACK -->
+
+    <div
+    class="hotspot backButton"
+    onclick="goHome()">
+    </div>
+
+</div>
+
+
+
+<!-- ======================================
+     BAR
+====================================== -->
+
+<div
+id="barScreen"
+class="screen">
+
+    <img
+    id="barImage"
+    class="screen-image"
+    src=""
+    alt="Bar Menu">
+
+
+    <!-- BACK -->
+
+    <div
+    class="hotspot backButton"
+    onclick="goHome()">
+    </div>
+
+</div>
+
+
+</div>
+
+
+
 <script>
 
-const video = document.getElementById("introVideo");
+
+/* ========================================
+   KITCHEN — 9 PAGES
+======================================== */
+
+const kitchenPages = [
+
+    "kitchen-01.jpg",
+
+    "kitchen-02.jpg",
+
+    "kitchen-03.jpg",
+
+    "kitchen-04.jpg",
+
+    "kitchen-05.jpg",
+
+    "kitchen-06.jpg",
+
+    "kitchen-07.jpg",
+
+    "kitchen-08.jpg",
+
+    "kitchen-09.jpg"
+
+];
+
+
+
+/* ========================================
+   BAR — 3 PAGES
+======================================== */
+
+const barPages = [
+
+    "bar-01.jpg",
+
+    "bar-02.jpg",
+
+    "bar-03.jpg"
+
+];
+
+
+
+/* ========================================
+   VARIABLES
+======================================== */
+
+let kitchenIndex = 0;
+
+let barIndex = 0;
 
 let menuOpened = false;
 
+let startX = 0;
 
-/* Переход после видео */
+let endX = 0;
 
-function showHome() {
 
-    if (menuOpened) return;
 
-    menuOpened = true;
+/* ========================================
+   ELEMENTS
+======================================== */
 
-    video.pause();
+const video =
+document.getElementById("introVideo");
+
+const videoScreen =
+document.getElementById("videoScreen");
+
+const homeScreen =
+document.getElementById("homeScreen");
+
+const kitchenScreen =
+document.getElementById("kitchenScreen");
+
+const barScreen =
+document.getElementById("barScreen");
+
+const kitchenImage =
+document.getElementById("kitchenImage");
+
+const barImage =
+document.getElementById("barImage");
+
+
+
+/* ========================================
+   SHOW ONE SCREEN
+======================================== */
+
+function showScreen(screen) {
 
     document
-        .getElementById("videoScreen")
-        .classList.remove("active");
+    .querySelectorAll(".screen")
+    .forEach(function(item) {
 
-    document
-        .getElementById("homeScreen")
-        .classList.add("active");
+        item.classList.remove("active");
+
+    });
+
+    screen.classList.add("active");
+
 }
 
 
-/* Основной способ */
 
-video.addEventListener("ended", function() {
+/* ========================================
+   VIDEO → HOME
+======================================== */
+
+function showHome() {
+
+    if (menuOpened) {
+
+        return;
+
+    }
+
+
+    menuOpened = true;
+
+
+    video.pause();
+
+
+    videoScreen
+    .classList
+    .remove("active");
+
+
+    homeScreen
+    .classList
+    .add("active");
+
+
+    homeScreen
+    .classList
+    .add("fade");
+
+
+    setTimeout(function() {
+
+        homeScreen
+        .classList
+        .remove("fade");
+
+    }, 300);
+
+}
+
+
+
+/* ========================================
+   VIDEO ENDED
+======================================== */
+
+video.addEventListener(
+"ended",
+function() {
+
     showHome();
+
 });
 
 
-/* Запасной способ:
-   когда видео практически закончилось */
 
-video.addEventListener("timeupdate", function() {
+/* ========================================
+   IPHONE / SAFARI BACKUP
+======================================== */
+
+video.addEventListener(
+"timeupdate",
+function() {
 
     if (
+
         video.duration &&
-        video.currentTime >= video.duration - 0.15
+
+        video.currentTime >=
+        video.duration - 0.15
+
     ) {
+
         showHome();
+
     }
 
 });
 
 
-/* Если браузер сообщает duration */
 
-video.addEventListener("loadedmetadata", function() {
+/* ========================================
+   OPEN KITCHEN
+======================================== */
 
-    console.log("Video duration:", video.duration);
+function openKitchen() {
+
+    kitchenIndex = 0;
+
+
+    kitchenImage.src =
+    kitchenPages[kitchenIndex];
+
+
+    showScreen(
+        kitchenScreen
+    );
+
+}
+
+
+
+/* ========================================
+   OPEN BAR
+======================================== */
+
+function openBar() {
+
+    barIndex = 0;
+
+
+    barImage.src =
+    barPages[barIndex];
+
+
+    showScreen(
+        barScreen
+    );
+
+}
+
+
+
+/* ========================================
+   BACK → HOME
+======================================== */
+
+function goHome() {
+
+    showScreen(
+        homeScreen
+    );
+
+}
+
+
+
+/* ========================================
+   KITCHEN NEXT
+======================================== */
+
+function kitchenNext() {
+
+    if (
+
+        kitchenIndex <
+        kitchenPages.length - 1
+
+    ) {
+
+        kitchenIndex++;
+
+        kitchenImage.src =
+        kitchenPages[kitchenIndex];
+
+    }
+
+}
+
+
+
+/* ========================================
+   KITCHEN PREVIOUS
+======================================== */
+
+function kitchenPrevious() {
+
+    if (kitchenIndex > 0) {
+
+        kitchenIndex--;
+
+        kitchenImage.src =
+        kitchenPages[kitchenIndex];
+
+    }
+
+}
+
+
+
+/* ========================================
+   BAR NEXT
+======================================== */
+
+function barNext() {
+
+    if (
+
+        barIndex <
+        barPages.length - 1
+
+    ) {
+
+        barIndex++;
+
+        barImage.src =
+        barPages[barIndex];
+
+    }
+
+}
+
+
+
+/* ========================================
+   BAR PREVIOUS
+======================================== */
+
+function barPrevious() {
+
+    if (barIndex > 0) {
+
+        barIndex--;
+
+        barImage.src =
+        barPages[barIndex];
+
+    }
+
+}
+
+
+
+/* ========================================
+   TOUCH START
+======================================== */
+
+document.addEventListener(
+"touchstart",
+function(event) {
+
+    startX =
+    event.changedTouches[0].screenX;
 
 });
 
 
-/* KITCHEN */
 
-function openKitchen() {
+/* ========================================
+   TOUCH END
+======================================== */
 
-    document
-        .getElementById("homeScreen")
-        .classList.remove("active");
+document.addEventListener(
+"touchend",
+function(event) {
 
-    document
-        .getElementById("barScreen")
-        .classList.remove("active");
+    endX =
+    event.changedTouches[0].screenX;
 
-    document
-        .getElementById("kitchenScreen")
-        .classList.add("active");
+
+    handleSwipe();
+
+});
+
+
+
+/* ========================================
+   SWIPE
+======================================== */
+
+function handleSwipe() {
+
+
+    const difference =
+    endX - startX;
+
+
+    /*
+       Ignore very small movements.
+    */
+
+    if (
+
+        Math.abs(difference) < 50
+
+    ) {
+
+        return;
+
+    }
+
+
+
+    /* ==============================
+       KITCHEN
+    ============================== */
+
+    if (
+
+        kitchenScreen
+        .classList
+        .contains("active")
+
+    ) {
+
+
+        /*
+           Swipe LEFT
+           → NEXT
+        */
+
+        if (difference < 0) {
+
+            kitchenNext();
+
+        }
+
+
+        /*
+           Swipe RIGHT
+           → PREVIOUS
+        */
+
+        else {
+
+            kitchenPrevious();
+
+        }
+
+    }
+
+
+
+    /* ==============================
+       BAR
+    ============================== */
+
+    if (
+
+        barScreen
+        .classList
+        .contains("active")
+
+    ) {
+
+
+        /*
+           Swipe LEFT
+           → NEXT
+        */
+
+        if (difference < 0) {
+
+            barNext();
+
+        }
+
+
+        /*
+           Swipe RIGHT
+           → PREVIOUS
+        */
+
+        else {
+
+            barPrevious();
+
+        }
+
+    }
+
 }
 
 
-/* BAR */
 
-function openBar() {
+/* ========================================
+   PRELOAD ALL MENU IMAGES
+======================================== */
 
-    document
-        .getElementById("homeScreen")
-        .classList.remove("active");
+function preloadImages(array) {
 
-    document
-        .getElementById("kitchenScreen")
-        .classList.remove("active");
+    array.forEach(function(src) {
 
-    document
-        .getElementById("barScreen")
-        .classList.add("active");
+        const image =
+        new Image();
+
+        image.src = src;
+
+    });
+
 }
 
 
-/* BACK */
+preloadImages(
+    kitchenPages
+);
 
-function goHome() {
 
-    document
-        .getElementById("kitchenScreen")
-        .classList.remove("active");
+preloadImages(
+    barPages
+);
 
-    document
-        .getElementById("barScreen")
-        .classList.remove("active");
 
-    document
-        .getElementById("homeScreen")
-        .classList.add("active");
-}
 
 </script>
 
+
 </body>
+
 </html>
