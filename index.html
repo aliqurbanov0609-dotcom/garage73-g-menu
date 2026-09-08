@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1,
+               maximum-scale=1,
+               user-scalable=no,
+               viewport-fit=cover">
+
+<title>Garage 73 Menu</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#app {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+}
+
+.screen {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+.screen-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* VIDEO */
+
+#introVideo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #000;
+}
+
+/* Invisible clickable areas */
+
+.hotspot {
+    position: absolute;
+    z-index: 20;
+    cursor: pointer;
+}
+
+/* HOME */
+
+#kitchenButton {
+    left: 13%;
+    top: 39%;
+    width: 37%;
+    height: 12%;
+}
+
+#barButton {
+    left: 51%;
+    top: 39%;
+    width: 37%;
+    height: 12%;
+}
+
+/* BACK BUTTON */
+
+.backButton {
+    left: 3%;
+    top: 1.5%;
+    width: 27%;
+    height: 7%;
+}
+
+/* MENU NAVIGATION */
+
+.nextButton {
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    height: 12%;
+}
+
+.prevButton {
+    left: 0;
+    bottom: 0;
+    width: 50%;
+    height: 12%;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+    <!-- INTRO VIDEO -->
+
+    <div id="videoScreen" class="screen active">
+
+        <video
+            id="introVideo"
+            autoplay
+            muted
+            playsinline
+            preload="auto">
+
+            <source src="video.mp4" type="video/mp4">
+
+        </video>
+
+    </div>
+
+
+    <!-- HOME -->
+
+    <div id="homeScreen" class="screen">
+
+        <img
+            src="home.jpg"
+            class="screen-image"
+            alt="Garage 73 Menu">
+
+        <div
+            id="kitchenButton"
+            class="hotspot"
+            onclick="openKitchen()">
+        </div>
+
+        <div
+            id="barButton"
+            class="hotspot"
+            onclick="openBar()">
+        </div>
+
+    </div>
+
+
+    <!-- KITCHEN -->
+
+    <div id="kitchenScreen" class="screen">
+
+        <img
+            id="kitchenImage"
+            class="screen-image"
+            src="kitchen-01.jpg"
+            alt="Kitchen Menu">
+
+        <div
+            class="hotspot backButton"
+            onclick="goHome()">
+        </div>
+
+    </div>
+
+
+    <!-- BAR -->
+
+    <div id="barScreen" class="screen">
+
+        <img
+            id="barImage"
+            class="screen-image"
+            src="bar-01.jpg"
+            alt="Bar Menu">
+
+        <div
+            class="hotspot backButton"
+            onclick="goHome()">
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const kitchenPages = [
+    "kitchen-01.jpg",
+    "kitchen-02.jpg",
+    "kitchen-03.jpg",
+    "kitchen-04.jpg",
+    "kitchen-05.jpg",
+    "kitchen-06.jpg",
+    "kitchen-07.jpg",
+    "kitchen-08.jpg",
+    "kitchen-09.jpg",
+];
+
+const barPages = [
+    "bar-01.jpg",
+    "bar-02.jpg",
+    "bar-03.jpg",
+];
+
+let kitchenIndex = 0;
+let barIndex = 0;
+
+
+/* SCREEN CONTROL */
+
+function showScreen(id) {
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(screen => {
+
+            screen.classList.remove("active");
+
+        });
+
+    document
+        .getElementById(id)
+        .classList.add("active");
+}
+
+
+/* VIDEO */
+
+const video = document.getElementById("introVideo");
+
+video.addEventListener("ended", function() {
+
+    showScreen("homeScreen");
+
+});
+
+
+/* HOME */
+
+function goHome() {
+
+    showScreen("homeScreen");
+
+}
+
+
+/* KITCHEN */
+
+function openKitchen() {
+
+    kitchenIndex = 0;
+
+    document.getElementById("kitchenImage").src =
+        kitchenPages[kitchenIndex];
+
+    showScreen("kitchenScreen");
+
+}
+
+
+/* BAR */
+
+function openBar() {
+
+    barIndex = 0;
+
+    document.getElementById("barImage").src =
+        barPages[barIndex];
+
+    showScreen("barScreen");
+
+}
+
+
+/* SWIPE */
+
+let startX = 0;
+let endX = 0;
+
+document.addEventListener("touchstart", function(e) {
+
+    startX = e.changedTouches[0].screenX;
+
+});
+
+
+document.addEventListener("touchend", function(e) {
+
+    endX = e.changedTouches[0].screenX;
+
+    handleSwipe();
+
+});
+
+
+function handleSwipe() {
+
+    const difference = endX - startX;
+
+    if (Math.abs(difference) < 50) {
+        return;
+    }
+
+    if (
+        document
+        .getElementById("kitchenScreen")
+        .classList.contains("active")
+    ) {
+
+        if (difference < 0) {
+
+            if (
+                kitchenIndex <
+                kitchenPages.length - 1
+            ) {
+
+                kitchenIndex++;
+
+                document
+                    .getElementById("kitchenImage")
+                    .src =
+                    kitchenPages[kitchenIndex];
+
+            }
+
+        }
+
+        else {
+
+            if (kitchenIndex > 0) {
+
+                kitchenIndex--;
+
+                document
+                    .getElementById("kitchenImage")
+                    .src =
+                    kitchenPages[kitchenIndex];
+
+            }
+
+        }
+
+    }
+
+
+    if (
+        document
+        .getElementById("barScreen")
+        .classList.contains("active")
+    ) {
+
+        if (difference < 0) {
+
+            if (
+                barIndex <
+                barPages.length - 1
+            ) {
+
+                barIndex++;
+
+                document
+                    .getElementById("barImage")
+                    .src =
+                    barPages[barIndex];
+
+            }
+
+        }
+
+        else {
+
+            if (barIndex > 0) {
+
+                barIndex--;
+
+                document
+                    .getElementById("barImage")
+                    .src =
+                    barPages[barIndex];
+
+            }
+
+        }
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
